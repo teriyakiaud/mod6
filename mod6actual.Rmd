@@ -1,0 +1,27 @@
+---
+title: "mod6"
+output: html_document
+---
+
+f<-"C:/Users/Audrey/Desktop/countries.csv"
+d<-read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(d)
+summary(d)
+names(d)
+d["country"]
+median(d$population, na.rm = TRUE)
+#median of the population, use $ to pull out just the population data from the dataset
+
+median(d$area, na.rm = TRUE)
+d$density<-(d$population/d$area)
+d$density
+
+d <- d[order(-d$density), ]
+d[1:10, ]
+
+d <- d[order(d$density), ]
+d[1:10, ]
+
+d1<-d[1:20, ]
+d1
+d2<-
