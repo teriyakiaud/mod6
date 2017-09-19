@@ -18,10 +18,25 @@ d$density
 
 d <- d[order(-d$density), ]
 d[1:10, ]
-
+#(-) before the d$density gives descending order so that greatest density comes first
 d <- d[order(d$density), ]
 d[1:10, ]
+#without the (-) the order function gives ascending order so that least density comes first
 
-d1<-d[1:20, ]
-d1
-d2<-
+d1<-d[order(-d$density), ]
+d1[1:20, ]
+
+summary(d1)
+median(d1$population, na.rm = TRUE)
+median(d1$area, na.rm = TRUE)
+
+new <- d[grep("^[A-F]", d$country), ]
+summary(new)
+mean(new$population, na.rm = TRUE)
+mean(new$area, na.rm = TRUE)
+
+boxplot(d$area)
+boxplot(log(d$area))
+
+boxplot(d$population)
+boxplot(log(d$population))
