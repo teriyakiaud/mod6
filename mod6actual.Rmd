@@ -35,8 +35,13 @@ summary(new)
 mean(new$population, na.rm = TRUE)
 mean(new$area, na.rm = TRUE)
 
+par(mfrow = c(2,3))
+#makes panel of 2 rows by 3 columns of the boxplots
 boxplot(d$area)
 boxplot(log(d$area))
 
 boxplot(d$population)
 boxplot(log(d$population))
+
+par(mfrow = c(1,2))
+hist(log(d$area,), freq = FALSE, col = "red", main = "PLOT 1", xlab = "(log)area", ylab = "density", ylim = c(0, 0.2))
