@@ -1,35 +1,46 @@
 ---
 title: "mod6"
+author: Audrey Tjahjadi
 output: html_document
 ---
 
+```{r}
 f<-"C:/Users/Audrey/Desktop/countries.csv"
-d<-read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+d<-read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)  
+```
+```{r}
 head(d)
 summary(d)
 names(d)
 d["country"]
 median(d$population, na.rm = TRUE)
+```
 #median of the population, use $ to pull out just the population data from the dataset
-
+```{r}
 median(d$area, na.rm = TRUE)
 d$density<-(d$population/d$area)
 d$density
 
 d <- d[order(-d$density), ]
 d[1:10, ]
+```
 #(-) before the d$density gives descending order so that greatest density comes first
+```{r}
 d <- d[order(d$density), ]
 d[1:10, ]
+```
 #without the (-) the order function gives ascending order so that least density comes first
-
+```{r}
 d1<-d[order(-d$density), ]
 d1[1:20, ]
+```
 
+```{r}
 summary(d1)
 median(d1$population, na.rm = TRUE)
 median(d1$area, na.rm = TRUE)
-
+```
+```{r}
 new <- d[grep("^[A-F]", d$country), ]
 summary(new)
 mean(new$population, na.rm = TRUE)
@@ -42,6 +53,67 @@ boxplot(log(d$area))
 
 boxplot(d$population)
 boxplot(log(d$population))
-
+```
+```{r}
 par(mfrow = c(1,2))
 hist(log(d$area,), freq = FALSE, col = "red", main = "PLOT 1", xlab = "(log)area", ylab = "density", ylim = c(0, 0.2))
+hist(log(d$population,), freq = FALSE, col = "red", main = "PLOT 1", xlab = "(log)population", ylab = "density", ylim = c(0, 0.2))
+```
+```{r}
+sort(table(d$govt_form), decreasing = TRUE)
+```
+
+#Kamilar Data
+```{r}
+k<-"C:/Users/Audrey/Desktop/kamilar.csv"
+m<-read.csv(k, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(m)
+```
+
+```{r}
+summary(m)
+```
+
+```{r}
+boxplot(log(Body_mass_female_mean) ~ Family, m)
+```
+#using {base} R graphics
+
+```{r}
+library(ggplot2)
+p <- ggplot(data = m, aes(x = Family, y = log(Body_mass_female_mean)))
+p <- p + geom_boxplot()
+p <- p + theme(axis.text.x = element_text(angle = 90))
+p <- p + ylab("log(Female Body Mass)")
+p
+```
+#using {ggplot} graphics
+```{r}
+p <- ggplot(data = m, aes(x = log(Body_mass_female_mean), y = log(MaxLongevity_m)))
+p <- p + geom_point()
+p <- p + geom_smooth(method = "lm")
+p
+```
+```{r}
+library(dplyr)
+aggregate(m$Body_mass_female_mean ~ m$Family, FUN = "mean", na.rm = TRUE)
+```
+```{r}
+s <- filter(m, Family == "Hominidae" & Mass_Dimorphism > 2)
+head(s)
+```
+```{r}
+s <- arrange(m, Family, Genus, Body_mass_male_mean) 
+head(s)
+```
+# rearranging a data frame
+
+```{r}
+s <- select(m, Family, Genus, Body_mass_male_mean)  
+head(s)
+```
+# selecting specific columns
+```{r}
+byFamily <- group_by(m, Family)
+byFamily
+```
